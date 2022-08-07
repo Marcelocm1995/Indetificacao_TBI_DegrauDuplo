@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F446xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\Filter;..\Map</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -797,6 +797,26 @@
               <FileName>system_stm32f4xx.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/system_stm32f4xx.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Filter</GroupName>
+          <Files>
+            <File>
+              <FileName>filter_1order.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Filter\filter_1order.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Map</GroupName>
+          <Files>
+            <File>
+              <FileName>Map.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Map\Map.c</FilePath>
             </File>
           </Files>
         </Group>

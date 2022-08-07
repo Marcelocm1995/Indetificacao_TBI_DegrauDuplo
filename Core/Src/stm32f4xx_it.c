@@ -70,7 +70,8 @@ extern uint16_t STEP,
 
 extern uint32_t SPEED_TIMER,
 								READY,
-								counter;
+								counter,
+								AuxTimerMs;
 
 /* USER CODE END EV */
 
@@ -202,6 +203,8 @@ void SysTick_Handler(void)
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
 	SPEED_TIMER++;
+	AuxTimerMs++;
+	
 	if(start)
 	{
 		subcount++;

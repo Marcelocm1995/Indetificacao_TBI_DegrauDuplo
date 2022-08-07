@@ -27,6 +27,8 @@ RadF100_Order1 = FilterWindowHammingFs1000Fc100_Order1(RAD_S);
 RadF10_Order1 = FilterWindowHammingFs1000Fc10_Order1(RAD_S);
 
 CurrentF10_Order1 = FilterWindowHammingFs1000Fc10_Order1(Current);
+figure;
+plot(time,CurrentF10_Order1);
 
 figure;
 % plot(time,RadF100_Order10);

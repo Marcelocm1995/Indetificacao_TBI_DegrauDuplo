@@ -29,6 +29,8 @@
 
 #include "stdio.h"
 #include "string.h"
+#include "filter_1order.h"
+#include "Map.h"
 
 /* USER CODE END Includes */
 
@@ -73,7 +75,8 @@ uint32_t ADC_RAW[2],
 				 encoderCount,
 				 Last_encoderCount,
 				 counter = 0,
-				 SPEED_TIMER = 0;
+				 SPEED_TIMER = 0,
+				 AuxTimerMs;
 
 float RPS = 0,
 			RAD_S,
@@ -88,8 +91,7 @@ float RPS = 0,
 			
 uint8_t Rx_data[10];
 
-float vref = 3.3f,
-			divisor = 4.2f;
+float divisor = 4.2f;
 
 /* USER CODE END PV */
 
@@ -111,6 +113,9 @@ void pwm(uint16_t duty);
 void sendchar(uint8_t c);
 void sendstring(char *string);
 
+
+double vcc = 3.38, vref = 3.3, ADC_Voltage, ADC_VoltageFiltred, Current, FatorFiltro = 0.1;
+int32_t Milliamp;
 /* USER CODE END 0 */
 
 /**
@@ -178,35 +183,47 @@ int main(void)
   {
 		if(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == 0)
 		{
+			start=1;
 		}
 		
-		if(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == 0)	
+		if(start)
 		{
+			if(AuxTimerMs > 1000-1)
+			{
+				AuxTimerMs = 0;
+				
+				if(pwm_final>=120)
+				{
+					pwm_final=0;
+					start = 0;
+				}
+				
+				pwm_final++;				
+			}
 		}
 		
-		if(__HAL_TIM_GET_COUNTER(&htim1) > 5000 - 1)  //freq de controle
+		if(__HAL_TIM_GET_COUNTER(&htim1) > 10000 - 1)  //freq de controle
 		{
-			//LED_ON();
 			__HAL_TIM_SET_COUNTER(&htim1, 0);
-			TsEncoder = RefreshTimerAquisition / 1000000.0f; //calculo do Ts
-			
-			encoderCount = __HAL_TIM_GET_COUNTER(&htim2); //le o encoder
-			RPS = (encoderCount - Last_encoderCount) / 20.0f; //calcula RPS
-			RAD_S = RPS * 6.283185f; //transforma em rad/s
+			LED_ON();
 						
-			Last_encoderCount = encoderCount; //guarda a leitura z-1
-			rotacoes += RPS * TsEncoder; //aculuma as rotacoes					
-			
-			pwm_final = teste_pwm * 10;
+//			pwm_final = teste_pwm * 10;
 			pwm(pwm_final); //insere a acao de controle na saida	
 			
-			RAD_S_INT = RAD_S * 10;
 			MotorVoltageInt = MotorVoltage * 10;
+							
+//			ADC_Voltage = ADC_RAW[1] * (vref/4096.0);
+//			
+//			ADC_VoltageFiltred = FilterDoubleVal(ADC_VoltageFiltred, ADC_Voltage, FatorFiltro);
+//					
+//			Current = MapDouble(ADC_VoltageFiltred, vcc*0.1, vcc*0.9, -5.0, 5.0);
+//			
+//			Milliamp = Current*1000;
 						
-			sprintf(TX_buffer, "%u,%u,%u,%u,%u\r\n", counter, RAD_S_INT, pwm_final, MotorVoltageInt, ADC_RAW[1]);
+			sprintf(TX_buffer, "%u,%u,%u,%u\r\n", counter, pwm_final, MotorVoltageInt, ADC_RAW[1]);
 			HAL_UART_Transmit(&huart2, (uint8_t*)TX_buffer, strlen(TX_buffer),4);
 			
-			//LED_OFF();
+			LED_OFF();
 		}
     /* USER CODE END WHILE */
 
@@ -266,7 +283,7 @@ void SystemClock_Config(void)
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {	
-	LED_TOGGLE();
+	//LED_TOGGLE();
 	
 //	ADC_RAW[0] = HAL_ADC_GetValue(&hadc1);
 //	ADC_RAW[1] = HAL_ADC_GetValue(&hadc1);

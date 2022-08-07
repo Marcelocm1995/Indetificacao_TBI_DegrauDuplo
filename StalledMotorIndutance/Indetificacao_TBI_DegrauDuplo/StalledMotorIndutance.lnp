@@ -28,7 +28,9 @@
 ".\indetificacao_tbi_degrauduplo\stm32f4xx_hal_tim_ex.o"
 ".\indetificacao_tbi_degrauduplo\stm32f4xx_hal_uart.o"
 ".\indetificacao_tbi_degrauduplo\system_stm32f4xx.o"
+".\indetificacao_tbi_degrauduplo\filter_1order.o"
+".\indetificacao_tbi_degrauduplo\map.o"
 --strict --scatter ".\Indetificacao_TBI_DegrauDuplo\StalledMotorIndutance.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
---list "StalledMotorIndutance.map" -o .\Indetificacao_TBI_DegrauDuplo\StalledMotorIndutance.axf
+--list "StalledMotorIndutance.map" -o .\Indetificacao_TBI_DegrauDuplo\StalledMotorIndutance.c
