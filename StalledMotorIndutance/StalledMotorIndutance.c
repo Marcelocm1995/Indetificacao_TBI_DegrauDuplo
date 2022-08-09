@@ -116,6 +116,10 @@ void sendstring(char *string);
 
 double vcc = 3.38, vref = 3.3, ADC_Voltage, ADC_VoltageFiltred, Current, FatorFiltro = 0.1;
 int32_t Milliamp;
+
+uint32_t CurrentIndex;
+uint32_t NAmostras = 50;
+uint32_t AdcCurrent[500], AvgAdcCurrent, SumAdcCurrent, Print;
 /* USER CODE END 0 */
 
 /**
@@ -166,14 +170,32 @@ int main(void)
 	HAL_TIM_Base_Start(&htim3);
 	HAL_TIM_Base_Start(&htim1);
 	//HAL_ADC_Start_IT(&hadc1);
-	HAL_ADC_Start_DMA(&hadc1, ADC_RAW, 2); 
+	
 	
 	HAL_UART_Receive_IT (&huart2, Rx_data, 4);
 	
 	H_dir(1);
 	
-	htim3.Init.Period = 100-1;
-	HAL_TIM_Base_Init(&htim3);
+	htim3.Init.Prescaler = 9-1;
+	htim3.Init.Period = 90-1;
+	HAL_TIM_Base_Init(&htim3); // essa config nos da cerca de 150Ksps
+	
+	ADC_ChannelConfTypeDef sConfig = {0};
+	hadc1.Init.NbrOfConversion = 1;
+	if (HAL_ADC_Init(&hadc1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+	
+	sConfig.Channel = ADC_CHANNEL_10;
+  sConfig.Rank = 1;
+	sConfig.SamplingTime = ADC_SAMPLETIME_144CYCLES;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+	
+	HAL_ADC_Start_DMA(&hadc1, ADC_RAW, 1); 
 	
 	pwm(0);
 	STEP = 0;	
@@ -183,31 +205,22 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  {
-		if(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == 0)
+  {				
+		if(Print == 1)
 		{
-			start=1;
-		}
-		
-		if(__HAL_TIM_GET_COUNTER(&htim1) > 500 - 1)  //freq de controle
-		{
+			Print = 0;
 			__HAL_TIM_SET_COUNTER(&htim1, 0);
 			LED_ON();
 						
 			pwm_final = teste_pwm * 10;
 			pwm(pwm_final); //insere a acao de controle na saida	
 			
-			MotorVoltageInt = MotorVoltage * 10;
-							
-//			ADC_Voltage = ADC_RAW[1] * (vref/4096.0);
-//			
-//			ADC_VoltageFiltred = FilterDoubleVal(ADC_VoltageFiltred, ADC_Voltage, FatorFiltro);
-//					
-//			Current = MapDouble(ADC_VoltageFiltred, vcc*0.1, vcc*0.9, -5.0, 5.0);
-//			
-//			Milliamp = Current*1000;
+			MotorVoltageInt = MotorVoltage * 10;	
+
+			AvgAdcCurrent = SumAdcCurrent / NAmostras;
+			SumAdcCurrent = 0;
 						
-			sprintf(TX_buffer, "%u,%u,%u,%u\r\n", counter, pwm_final, MotorVoltageInt, ADC_RAW[1]);
+			sprintf(TX_buffer, "%u,%u,%u,%u\r\n", counter, pwm_final, MotorVoltageInt, AvgAdcCurrent);
 			HAL_UART_Transmit(&huart2, (uint8_t*)TX_buffer, strlen(TX_buffer),4);
 			
 			LED_OFF();
@@ -272,21 +285,18 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {	
 //	LED_ON();
 	
-//	ADC_RAW[0] = HAL_ADC_GetValue(&hadc1);
-//	ADC_RAW[1] = HAL_ADC_GetValue(&hadc1);
-
-	if (pwm_final < 1)
-			ADC_RAW[0] = 0;
-
-	//MotorVoltage = ((vref/4095) * ADC_RAW) * divisor;
+	AdcCurrent[CurrentIndex] = ADC_RAW[0];
+	SumAdcCurrent += AdcCurrent[CurrentIndex];
+	CurrentIndex++;
 	
-	HAL_ADC_Start_DMA(&hadc1, ADC_RAW, 2); 
+	if(CurrentIndex>NAmostras-1)
+	{
+		CurrentIndex = 0;
+		Print = 1;
+	}
+	
+	HAL_ADC_Start_DMA(&hadc1, ADC_RAW, 1); 
 //	LED_OFF();
-}
-
-void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
-{
-	//pwm(STEP);
 }
 
 void uint_to_asc(unsigned long val1, unsigned long val2, unsigned long val3, unsigned long val4,
