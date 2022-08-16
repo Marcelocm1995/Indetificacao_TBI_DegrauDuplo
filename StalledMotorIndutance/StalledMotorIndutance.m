@@ -2,7 +2,7 @@
 clearvars;
 clc;
 close all;
-datalog = csvread("C:\Users\marce\OneDrive\Documentos\USP\Indetificacao_TBI_DegrauDuplo\StalledMotorIndutance\AQCs\StalledMotorIndutance_2Volts_100Ksps.dat");
+datalog = csvread("C:\Users\marce\OneDrive\Documentos\USP\Indetificacao_TBI_DegrauDuplo\StalledMotorIndutance\AQCs\StalledMotorIndutance_2Volts_150Ksps_2.dat");
 
 %% separa as informacoes importadas em vetores 
 

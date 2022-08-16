@@ -152,9 +152,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>201</LineNumber>
+          <LineNumber>212</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134233840</Address>
+          <Address>134233856</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -163,7 +163,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\StalledMotorIndutance.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\StalledMotorIndutance\StalledMotorIndutance.c\201</Expression>
+          <Expression>\\StalledMotorIndutance\StalledMotorIndutance.c\212</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -175,7 +175,7 @@
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ADC_RAW[1],0x0A</ItemText>
+          <ItemText>ADC_RAW,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>2</count>

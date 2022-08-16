@@ -181,7 +181,18 @@ int main(void)
 	HAL_TIM_Base_Init(&htim3); // essa config nos da cerca de 150Ksps
 	
 	ADC_ChannelConfTypeDef sConfig = {0};
-	hadc1.Init.NbrOfConversion = 1;
+	hadc1.Instance = ADC1;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc1.Init.ScanConvMode = DISABLE;
+  hadc1.Init.ContinuousConvMode = ENABLE;
+  hadc1.Init.DiscontinuousConvMode = DISABLE;
+  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc1.Init.NbrOfConversion = 1;
+  hadc1.Init.DMAContinuousRequests = ENABLE;
+  hadc1.Init.EOCSelection = ADC_EOC_SEQ_CONV;
 	if (HAL_ADC_Init(&hadc1) != HAL_OK)
   {
     Error_Handler();
@@ -206,10 +217,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {				
-		if(Print == 1)
+		if(GetTimer1() > 500-1 -35)
 		{
-			Print = 0;
-			__HAL_TIM_SET_COUNTER(&htim1, 0);
+			ResetTimer1();
 			LED_ON();
 						
 			pwm_final = teste_pwm * 10;
@@ -217,8 +227,10 @@ int main(void)
 			
 			MotorVoltageInt = MotorVoltage * 10;	
 
-			AvgAdcCurrent = SumAdcCurrent / NAmostras;
+			AvgAdcCurrent = SumAdcCurrent / CurrentIndex;
+			CurrentIndex = 0;
 			SumAdcCurrent = 0;
+			
 						
 			sprintf(TX_buffer, "%u,%u,%u,%u\r\n", counter, pwm_final, MotorVoltageInt, AvgAdcCurrent);
 			HAL_UART_Transmit(&huart2, (uint8_t*)TX_buffer, strlen(TX_buffer),4);
@@ -288,13 +300,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 	AdcCurrent[CurrentIndex] = ADC_RAW[0];
 	SumAdcCurrent += AdcCurrent[CurrentIndex];
 	CurrentIndex++;
-	
-	if(CurrentIndex>NAmostras-1)
-	{
-		CurrentIndex = 0;
-		Print = 1;
-	}
-	
+		
 	HAL_ADC_Start_DMA(&hadc1, ADC_RAW, 1); 
 //	LED_OFF();
 }
