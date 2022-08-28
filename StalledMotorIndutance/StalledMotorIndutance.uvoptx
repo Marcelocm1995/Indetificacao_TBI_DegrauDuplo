@@ -26,7 +26,7 @@
     <ToolsetNumber>0x4</ToolsetNumber>
     <ToolsetName>ARM-ADS</ToolsetName>
     <TargetOption>
-      <CLKADS>25000000</CLKADS>
+      <CLKADS>8000000</CLKADS>
       <OPTTT>
         <gFlags>1</gFlags>
         <BeepAtEnd>1</BeepAtEnd>
@@ -152,9 +152,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>212</LineNumber>
+          <LineNumber>190</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134233856</Address>
+          <Address>134232174</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -163,7 +163,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\StalledMotorIndutance.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\StalledMotorIndutance\StalledMotorIndutance.c\212</Expression>
+          <Expression>\\StalledMotorIndutance\StalledMotorIndutance.c\190</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -175,32 +175,37 @@
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ADC_RAW,0x0A</ItemText>
+          <ItemText>ADC_RAW</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>AdcCurrent,0x0A</ItemText>
+          <ItemText>SumAdcCurrent,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>SumAdcCurrent,0x0A</ItemText>
+          <ItemText>AvgAdcCurrent,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>AvgAdcCurrent,0x0A</ItemText>
+          <ItemText>CurrentIndex,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>CurrentIndex,0x0A</ItemText>
+          <ItemText>Sps,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>NAmostras,0x0A</ItemText>
+          <ItemText>Freq,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>TX_buffer</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

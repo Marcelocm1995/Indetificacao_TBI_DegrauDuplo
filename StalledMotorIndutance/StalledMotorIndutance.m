@@ -2,7 +2,7 @@
 clearvars;
 clc;
 close all;
-datalog = csvread("C:\Users\marce\OneDrive\Documentos\USP\Indetificacao_TBI_DegrauDuplo\StalledMotorIndutance\AQCs\StalledMotorIndutance_2Volts_150Ksps_2.dat");
+datalog = csvread("C:\Users\marce\OneDrive\Documentos\USP\Indetificacao_TBI_DegrauDuplo\StalledMotorIndutance\AQCs\StalledMotorIndutance_2Volts.dat");
 
 %% separa as informacoes importadas em vetores 
 
@@ -12,8 +12,7 @@ datalog = csvread("C:\Users\marce\OneDrive\Documentos\USP\Indetificacao_TBI_Degr
 % time = (datalog(:,1) - datalog(1,1)) / 1000;   % vetor de temp em S     
 time = (datalog(:,1) - 2445 - 821)/ 1000;   % vetor de temp em S  
 CONTROLE_PWM = (datalog(:,2) / 100) * 10;
-Voltage_PWM = (datalog(:,3) / 100) * (12/3.2); 
-RAW_ADC = (datalog(:,4) / 1);
+RAW_ADC = (datalog(:,3) / 1);
 vcc = 3.36;
 vref = 3.3;
 ADC_Voltage = RAW_ADC * (vref/4096);
