@@ -2180,12 +2180,12 @@ Image Symbol Table
     [Anonymous Symbol]                       0x08003714   Section        0  stm32f4xx_it.o(.text.USART2_IRQHandler)
     [Anonymous Symbol]                       0x08003720   Section        0  stm32f4xx_it.o(.text.UsageFault_Handler)
     [Anonymous Symbol]                       0x08003724   Section        0  stalledmotorindutance.o(.text.main)
-    [Anonymous Symbol]                       0x080039e0   Section        0  stalledmotorindutance.o(.text.x3uint_to_asc)
-    $v0                                      0x08003ca8   Number         0  fpinit.o(x$fpl$fpinit)
-    x$fpl$fpinit                             0x08003ca8   Section       26  fpinit.o(x$fpl$fpinit)
-    .Lswitch.table.HAL_TIM_IC_Start_IT       0x08003cdc   Data          16  stm32f4xx_hal_tim.o(.rodata.cst16)
-    .Lswitch.table.HAL_TIM_IC_Stop_IT        0x08003cec   Data          16  stm32f4xx_hal_tim.o(.rodata.cst16)
-    DMA_CalcBaseAndBitshift.flagBitshiftOffset 0x08003cfc   Data           8  stm32f4xx_hal_dma.o(.rodata.cst8)
+    [Anonymous Symbol]                       0x080039dc   Section        0  stalledmotorindutance.o(.text.x3uint_to_asc)
+    $v0                                      0x08003ca4   Number         0  fpinit.o(x$fpl$fpinit)
+    x$fpl$fpinit                             0x08003ca4   Section       26  fpinit.o(x$fpl$fpinit)
+    .Lswitch.table.HAL_TIM_IC_Start_IT       0x08003cd8   Data          16  stm32f4xx_hal_tim.o(.rodata.cst16)
+    .Lswitch.table.HAL_TIM_IC_Stop_IT        0x08003ce8   Data          16  stm32f4xx_hal_tim.o(.rodata.cst16)
+    DMA_CalcBaseAndBitshift.flagBitshiftOffset 0x08003cf8   Data           8  stm32f4xx_hal_dma.o(.rodata.cst8)
     .L_MergedGlobals                         0x20000000   Data           8  stm32f4xx_hal.o(.data..L_MergedGlobals)
     [Anonymous Symbol]                       0x20000000   Section        0  stm32f4xx_hal.o(.data..L_MergedGlobals)
     .bss                                     0x20000010   Section       96  libspace.o(.bss)
@@ -2453,7 +2453,7 @@ Image Symbol Table
     MX_TIM1_Init                             0x08003019   Thumb Code   188  tim.o(.text.MX_TIM1_Init)
     MX_TIM2_Init                             0x080030d5   Thumb Code   106  tim.o(.text.MX_TIM2_Init)
     MX_TIM3_Init                             0x08003141   Thumb Code   126  tim.o(.text.MX_TIM3_Init)
-    MX_TIM4_Init                             0x080031c1   Thumb Code   212  tim.o(.text.MX_TIM4_Init)
+    MX_TIM4_Init                             0x080031c1   Thumb Code   210  tim.o(.text.MX_TIM4_Init)
     MX_USART2_UART_Init                      0x08003295   Thumb Code    60  usart.o(.text.MX_USART2_UART_Init)
     MemManage_Handler                        0x080032d1   Thumb Code     2  stm32f4xx_it.o(.text.MemManage_Handler)
     NMI_Handler                              0x080032d5   Thumb Code     2  stm32f4xx_it.o(.text.NMI_Handler)
@@ -2467,15 +2467,15 @@ Image Symbol Table
     TIM_Base_SetConfig                       0x080033f1   Thumb Code   310  stm32f4xx_hal_tim.o(.text.TIM_Base_SetConfig)
     USART2_IRQHandler                        0x08003715   Thumb Code    12  stm32f4xx_it.o(.text.USART2_IRQHandler)
     UsageFault_Handler                       0x08003721   Thumb Code     2  stm32f4xx_it.o(.text.UsageFault_Handler)
-    main                                     0x08003725   Thumb Code   698  stalledmotorindutance.o(.text.main)
-    x3uint_to_asc                            0x080039e1   Thumb Code   712  stalledmotorindutance.o(.text.x3uint_to_asc)
-    _fp_init                                 0x08003ca9   Thumb Code    26  fpinit.o(x$fpl$fpinit)
-    __fplib_config_fpu_vfp                   0x08003cc1   Thumb Code     0  fpinit.o(x$fpl$fpinit)
-    __fplib_config_pureend_doubles           0x08003cc1   Thumb Code     0  fpinit.o(x$fpl$fpinit)
-    AHBPrescTable                            0x08003cc2   Data          16  system_stm32f4xx.o(.rodata.AHBPrescTable)
-    APBPrescTable                            0x08003cd2   Data           8  system_stm32f4xx.o(.rodata.APBPrescTable)
-    Region$$Table$$Base                      0x08003d04   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08003d24   Number         0  anon$$obj.o(Region$$Table)
+    main                                     0x08003725   Thumb Code   696  stalledmotorindutance.o(.text.main)
+    x3uint_to_asc                            0x080039dd   Thumb Code   712  stalledmotorindutance.o(.text.x3uint_to_asc)
+    _fp_init                                 0x08003ca5   Thumb Code    26  fpinit.o(x$fpl$fpinit)
+    __fplib_config_fpu_vfp                   0x08003cbd   Thumb Code     0  fpinit.o(x$fpl$fpinit)
+    __fplib_config_pureend_doubles           0x08003cbd   Thumb Code     0  fpinit.o(x$fpl$fpinit)
+    AHBPrescTable                            0x08003cbe   Data          16  system_stm32f4xx.o(.rodata.AHBPrescTable)
+    APBPrescTable                            0x08003cce   Data           8  system_stm32f4xx.o(.rodata.APBPrescTable)
+    Region$$Table$$Base                      0x08003d00   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08003d20   Number         0  anon$$obj.o(Region$$Table)
     uwTickFreq                               0x20000000   Data           1  stm32f4xx_hal.o(.data..L_MergedGlobals)
     uwTickPrio                               0x20000004   Data           4  stm32f4xx_hal.o(.data..L_MergedGlobals)
     Freq                                     0x20000008   Data           4  stalledmotorindutance.o(.data.Freq)
@@ -2512,9 +2512,9 @@ Memory Map of the image
 
   Image Entry point : 0x080001c5
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00003d38, Max: 0x00080000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00003d30, Max: 0x00080000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00003d24, Max: 0x00080000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00003d20, Max: 0x00080000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2701,7 +2701,8 @@ Memory Map of the image
     0x0800313e   0x0800313e   0x00000002   PAD
     0x08003140   0x08003140   0x0000007e   Code   RO           49    .text.MX_TIM3_Init  tim.o
     0x080031be   0x080031be   0x00000002   PAD
-    0x080031c0   0x080031c0   0x000000d4   Code   RO           51    .text.MX_TIM4_Init  tim.o
+    0x080031c0   0x080031c0   0x000000d2   Code   RO           51    .text.MX_TIM4_Init  tim.o
+    0x08003292   0x08003292   0x00000002   PAD
     0x08003294   0x08003294   0x0000003c   Code   RO           79    .text.MX_USART2_UART_Init  usart.o
     0x080032d0   0x080032d0   0x00000002   Code   RO           99    .text.MemManage_Handler  stm32f4xx_it.o
     0x080032d2   0x080032d2   0x00000002   PAD
@@ -2729,28 +2730,27 @@ Memory Map of the image
     0x08003714   0x08003714   0x0000000c   Code   RO          119    .text.USART2_IRQHandler  stm32f4xx_it.o
     0x08003720   0x08003720   0x00000002   Code   RO          103    .text.UsageFault_Handler  stm32f4xx_it.o
     0x08003722   0x08003722   0x00000002   PAD
-    0x08003724   0x08003724   0x000002ba   Code   RO          138    .text.main          stalledmotorindutance.o
-    0x080039de   0x080039de   0x00000002   PAD
-    0x080039e0   0x080039e0   0x000002c8   Code   RO          148    .text.x3uint_to_asc  stalledmotorindutance.o
-    0x08003ca8   0x08003ca8   0x0000001a   Code   RO         1315    x$fpl$fpinit        fz_wm.l(fpinit.o)
-    0x08003cc2   0x08003cc2   0x00000010   Data   RO         1138    .rodata.AHBPrescTable  system_stm32f4xx.o
-    0x08003cd2   0x08003cd2   0x00000008   Data   RO         1139    .rodata.APBPrescTable  system_stm32f4xx.o
-    0x08003cda   0x08003cda   0x00000002   PAD
-    0x08003cdc   0x08003cdc   0x00000020   Data   RO          914    .rodata.cst16       stm32f4xx_hal_tim.o
-    0x08003cfc   0x08003cfc   0x00000008   Data   RO          481    .rodata.cst8        stm32f4xx_hal_dma.o
-    0x08003d04   0x08003d04   0x00000020   Data   RO         1376    Region$$Table       anon$$obj.o
+    0x08003724   0x08003724   0x000002b8   Code   RO          138    .text.main          stalledmotorindutance.o
+    0x080039dc   0x080039dc   0x000002c8   Code   RO          148    .text.x3uint_to_asc  stalledmotorindutance.o
+    0x08003ca4   0x08003ca4   0x0000001a   Code   RO         1315    x$fpl$fpinit        fz_wm.l(fpinit.o)
+    0x08003cbe   0x08003cbe   0x00000010   Data   RO         1138    .rodata.AHBPrescTable  system_stm32f4xx.o
+    0x08003cce   0x08003cce   0x00000008   Data   RO         1139    .rodata.APBPrescTable  system_stm32f4xx.o
+    0x08003cd6   0x08003cd6   0x00000002   PAD
+    0x08003cd8   0x08003cd8   0x00000020   Data   RO          914    .rodata.cst16       stm32f4xx_hal_tim.o
+    0x08003cf8   0x08003cf8   0x00000008   Data   RO          481    .rodata.cst8        stm32f4xx_hal_dma.o
+    0x08003d00   0x08003d00   0x00000020   Data   RO         1376    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08003d28, Size: 0x00000ae0, Max: 0x00020000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08003d20, Size: 0x00000ae0, Max: 0x00020000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x08003d28   0x00000008   Data   RW          659    .data..L_MergedGlobals  stm32f4xx_hal.o
-    0x20000008   0x08003d30   0x00000004   Data   RW          162    .data.Freq          stalledmotorindutance.o
-    0x2000000c   0x08003d34   0x00000004   Data   RW         1137    .data.SystemCoreClock  system_stm32f4xx.o
+    0x20000000   0x08003d20   0x00000008   Data   RW          659    .data..L_MergedGlobals  stm32f4xx_hal.o
+    0x20000008   0x08003d28   0x00000004   Data   RW          162    .data.Freq          stalledmotorindutance.o
+    0x2000000c   0x08003d2c   0x00000004   Data   RW         1137    .data.SystemCoreClock  system_stm32f4xx.o
     0x20000010        -       0x00000060   Zero   RW         1243    .bss                c_w.l(libspace.o)
     0x20000070        -       0x00000066   Zero   RW          169    .bss..L_MergedGlobals  stalledmotorindutance.o
-    0x200000d6   0x08003d38   0x00000002   PAD
+    0x200000d6   0x08003d30   0x00000002   PAD
     0x200000d8        -       0x00000190   Zero   RW          163    .bss.ADC_RAW        stalledmotorindutance.o
     0x20000268        -       0x00000004   Zero   RW          165    .bss.AuxTimerMs     stalledmotorindutance.o
     0x2000026c        -       0x00000004   Zero   RW          164    .bss.SPEED_TIMER    stalledmotorindutance.o
@@ -2777,7 +2777,7 @@ Image component sizes
        374          0          0          0        168       5206   adc.o
         92          0          0          0          0       3547   dma.o
        246          0          0          0          0       2308   gpio.o
-      1650          0          0          4        510      11757   stalledmotorindutance.o
+      1648          0          0          4        510      11750   stalledmotorindutance.o
         64         26        452          0       1536        892   startup_stm32f446xx.o
        204          0          0          8          4       7512   stm32f4xx_hal.o
       1208          0          0          0          0      11309   stm32f4xx_hal_adc.o
@@ -2792,11 +2792,11 @@ Image component sizes
       2128          0          0          0          0      31899   stm32f4xx_hal_uart.o
        126          0          0          0          0       1527   stm32f4xx_it.o
         18          0         24          4          0       2747   system_stm32f4xx.o
-       982          0          0          0        288      10448   tim.o
+       980          0          0          0        288      10448   tim.o
        256          0          0          0        164       7028   usart.o
 
     ----------------------------------------------------------------------
-     14552         42        550         16       2672     218653   Object Totals
+     14548         42        550         16       2672     218646   Object Totals
          0          0         32          0          0          0   (incl. Generated)
        116          0          2          0          2          0   (incl. Padding)
 
@@ -2848,15 +2848,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     15102         58        550         16       2768     218957   Grand Totals
-     15102         58        550         16       2768     218957   ELF Image Totals
-     15102         58        550         16          0          0   ROM Totals
+     15098         58        550         16       2768     218950   Grand Totals
+     15098         58        550         16       2768     218950   ELF Image Totals
+     15098         58        550         16          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                15652 (  15.29kB)
+    Total RO  Size (Code + RO Data)                15648 (  15.28kB)
     Total RW  Size (RW Data + ZI Data)              2784 (   2.72kB)
-    Total ROM Size (Code + RO Data + RW Data)      15668 (  15.30kB)
+    Total ROM Size (Code + RO Data + RW Data)      15664 (  15.30kB)
 
 ==============================================================================
 

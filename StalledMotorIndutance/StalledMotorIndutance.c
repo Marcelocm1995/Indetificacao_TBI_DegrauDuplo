@@ -190,7 +190,7 @@ int main(void)
 	__HAL_DMA_DISABLE_IT(&hdma_adc1, DMA_IT_HT);
 	
 	pwm(0);
-
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -200,9 +200,17 @@ int main(void)
 		if(GetTimer1() > Freq)
 		{
 			ResetTimer1();
-			LED2_ON();
+			//LED2_ON();
 						
 			pwm_final = teste_pwm * 10;
+			if(pwm_final>0)
+			{
+				LED2_ON();
+			}
+			else
+			{
+				LED2_OFF();
+			}
 			pwm(pwm_final); //insere a acao de controle na saida	
 			
 			//MotorVoltageInt = MotorVoltage * 10;	
@@ -222,7 +230,7 @@ int main(void)
 			x3uint_to_asc(counter, pwm_final, AvgAdcCurrent, TX_buffer);
 			HAL_UART_Transmit_IT(&huart2, (uint8_t*)TX_buffer, 22);
 			
-			LED2_OFF();
+			//LED2_OFF();
 		}
     /* USER CODE END WHILE */
 
