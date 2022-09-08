@@ -33,8 +33,8 @@ ylabel('Corrente (A)');
 set(gca,'XTick',(0:1:12));
 set(gca,'YTick',(-1:0.5:5));
 
-% Resistance(1,1) = CONTROLE_PWM(1000,1)/CurrentF10_Order1(1000,1);
-% Resistance(2,1) = CONTROLE_PWM(2000,1)/CurrentF10_Order1(2000,1);
+Resistance(1,1) = CONTROLE_PWM(1000,1)/CurrentF10_Order1(1000,1);
+Resistance(2,1) = CONTROLE_PWM(2000,1)/CurrentF10_Order1(2000,1);
 Resistance(3,1) = CONTROLE_PWM(3000,1)/CurrentF10_Order1(3000,1);
 Resistance(4,1) = CONTROLE_PWM(4000,1)/CurrentF10_Order1(4000,1);
 Resistance(5,1) = CONTROLE_PWM(5000,1)/CurrentF10_Order1(5000,1);

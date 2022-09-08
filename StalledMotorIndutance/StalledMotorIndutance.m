@@ -48,11 +48,12 @@ set(gca,'XTick',(0:0.001:1));
 set(gca,'YTick',(-1:0.5:5));
 
 % WITHOUT DELAY
-% 63% of steady state was 1,1mS, then Tau = t
+% 63% of steady state was 0,3mS, then Tau = t
 % Therefore, the motor inductance was obtained as La = tau*Rt
-% -> La = 1,1(mS) * 4.1(Ohm) = 4,5 (mH)
+% -> La = 1,1(mS) * 6.44(Ohm) = 7,08 (mH)
+% -> La = 0,3(mS) * 6.44(Ohm) = 1,9 (mH)
 
 % WITH DELAY
 % 63% of steady state was 1,7mS, then Tau = t
 % Therefore, the motor inductance was obtained as La = tau*Rt
-% -> La = 1,7(mS) * 4.1(Ohm) = 6,95 (mH)
+% -> La = 1,7(mS) * 6.44(Ohm) = 10,95 (mH)
