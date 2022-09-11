@@ -16,26 +16,38 @@ TPS_min = 0.343;
 TPS_Deg = mapfun(TPS_RAW, TPS_min, TPS_max, 0, 90);
 
 TPS_Rad = deg2rad(TPS_Deg);
+% TPS_Rads = diff(TPS_Rad);
+% TPS_Rads(2000) = TPS_Rads(1999);
 
-TPS_Rads = diff(TPS_Rad);
+for a = 1:49
+index = find((time(:,1)>(a*0.009999)) & (time(:,1)<(a*0.010001)));
+TPS_Rad100hz(a) = TPS_Rad(index);
+Time_100hz(a) = time(index);
+end
+
+TPS_Rads = diff(TPS_Rad100hz);
+TPS_Rads(49) = TPS_Rads(48);
+TPS_Rads = TPS_Rads * 100; %to second
+
+x = linspace(0, 0.5, 49);
 
 %%
 
 % time = time - 0.038;
-% CurrentFiltred = FilterWindowHammingFs10000Fc100_Order5(Current);
+% BackEMFFiltred = FilterWindowHammingFs10000Fc100_Order5(BackEMF);
+TPS_Rads = TPS_Rads';
+TPS_RadsFiltred = FilterWindowHammingFs10000Fc100_Order5(TPS_Rads);
 
 figure;
-plot(time, BackEMF, time, TPS_Rad, time, TPS_Rads);
-legend('Back Emf (Volts)', 'Position (Rad)');
+plot(x, TPS_Rads, x-0.03, TPS_RadsFiltred);
 
-% figure
-% plot(time, Current, time-0.0003, CurrentFiltred, time, CONTROLE_PWM);
-% 
-% figure
-% plot(time, CurrentFiltred, time, CONTROLE_PWM);
-% 
-% grid minor;
-% xlabel('Tempo (S)');
-% ylabel('Corrente (A)');
-% set(gca,'XTick',(0:0.001:1));
-% set(gca,'YTick',(-1:0.5:5));
+figure;
+plot(time, BackEMF, time, TPS_Rad, x+0.01-0.025, TPS_RadsFiltred);
+grid on;
+legend('Back Emf (Volts)', 'Position (Rad)', 'Velocity (Rad/s)');
+
+%% Results
+% Using t = 0.15s :
+%   -> Back EMF = -9,5Volts
+%   -> Angular Velocity = -7Rad/s
+% Then Kb' is 0.56V.s/rad

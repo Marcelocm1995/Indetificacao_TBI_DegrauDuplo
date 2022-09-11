@@ -47,6 +47,14 @@ extern "C" {
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
 
+#define LED1_ON() HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, 1)
+#define LED1_OFF() HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, 0)
+#define LED1_TOGGLE() HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin)
+
+#define LED2_ON() HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 1)
+#define LED2_OFF() HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 0)
+#define LED2_TOGGLE() HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin)
+
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
