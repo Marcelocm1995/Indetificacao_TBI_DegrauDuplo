@@ -20,6 +20,7 @@
 #include "main.h"
 #include "adc.h"
 #include "dma.h"
+//#include "spi.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -29,6 +30,8 @@
 
 #include "stdio.h"
 #include "string.h"
+#include "filter_1order.h"
+#include "Map.h"
 
 /* USER CODE END Includes */
 
@@ -39,14 +42,13 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
+#define ADC_BUF_SIZE 2
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
-#define LED_ON() HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 1)
-#define LED_OFF() HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 0)
-#define LED_TOGGLE() HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin)
 
 /* USER CODE END PM */
 
@@ -56,40 +58,20 @@
 
 char TX_buffer[64];
 
-uint8_t start=0,
-				teste_pwm,
-				pwm_final,
-				RAD_S_INT,
-				ADC_FILTER_SWITCH = 1;
-				
-int16_t error_int;
-			
-uint16_t STEP = 0,
-				 subcount = 0,
-				 RefreshTimerAquisition = 1000,
-				 MotorVoltageInt;
+uint32_t teste_pwm,
+				pwm_final;
 
-uint32_t ADC_RAW[2],
-				 encoderCount,
-				 Last_encoderCount,
-				 counter = 0,
-				 SPEED_TIMER = 0;
-
-float RPS = 0,
-			RAD_S,
-			RAD_S_RAW,
-			RAD_S_1,
-			rotacoes = 0,
-			error,
-			error_1,
-			setpoint = 0, 
-      TsEncoder,
-      MotorVoltage;
+uint32_t ADC_RAW[ADC_BUF_SIZE],
+				 counter = 0;
 			
 uint8_t Rx_data[10];
 
-float vref = 3.3f,
-			divisor = 4.2f;
+uint32_t SPEED_TIMER,
+AuxTimerMs;
+
+uint32_t EncoderCount, LastEncoderCount;
+float RAD_S, Rps;
+uint32_t RAD_S_INT;
 
 /* USER CODE END PV */
 
@@ -97,20 +79,28 @@ float vref = 3.3f,
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 
-/* USER CODE END PFP */
-
-/* Private user code ---------------------------------------------------------*/
-/* USER CODE BEGIN 0 */
-
 void itoa(unsigned long val, char* asc);
-void uint_to_asc(unsigned long val1, unsigned long val2, unsigned long val3, unsigned long val4,
+void x5uint_to_asc(unsigned long val1, unsigned long val2, unsigned long val3, unsigned long val4,
                  unsigned long val5 ,char *buffer);
+void x3uint_to_asc(unsigned long val1, unsigned long val2, unsigned long val3, char *buffer);
 
 void H_dir(uint8_t dir);
 void pwm(uint16_t duty);
 void sendchar(uint8_t c);
 void sendstring(char *string);
 
+
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+
+volatile uint32_t CurrentIndex;
+volatile uint32_t AvgAdcCurrent, SumAdcCurrent, Print, Sps;
+
+volatile uint32_t Freq = 5000-1;
+
+uint32_t teste;
 /* USER CODE END 0 */
 
 /**
@@ -148,65 +138,68 @@ int main(void)
   MX_TIM4_Init();
   MX_USART2_UART_Init();
   MX_TIM3_Init();
+  //MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 	
+	H_dir(1);
 	HAL_Delay(100);
 	
 	HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
-	
 	HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
-	
 	HAL_TIM_IC_Start_IT(&htim1,TIM_CHANNEL_2);
-	
-	HAL_TIM_Base_Start(&htim3);
 	HAL_TIM_Base_Start(&htim1);
-	//HAL_ADC_Start_IT(&hadc1);
-	HAL_ADC_Start_DMA(&hadc1, ADC_RAW, 2); 
-	
+		
 	HAL_UART_Receive_IT (&huart2, Rx_data, 4);
+		
+	htim3.Init.Prescaler = 72-1;
+	htim3.Init.Period = 100-1;
+	HAL_TIM_Base_Init(&htim3); 
+	HAL_TIM_Base_Start(&htim3);
 	
-	H_dir(1);
+	HAL_ADC_Start_DMA(&hadc1, ADC_RAW, ADC_BUF_SIZE); 
+	__HAL_DMA_DISABLE_IT(&hdma_adc1, DMA_IT_HT);
 	
 	pwm(0);
-	STEP = 0;	
-
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  {
-		if(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == 0)
+  {				
+		if(GetTimer1() > Freq)
 		{
-		}
-		
-		if(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == 0)	
-		{
-		}
-		
-		if(__HAL_TIM_GET_COUNTER(&htim1) > 5000 - 1)  //freq de controle
-		{
-			//LED_ON();
-			__HAL_TIM_SET_COUNTER(&htim1, 0);
-			TsEncoder = RefreshTimerAquisition / 1000000.0f; //calculo do Ts
-			
-			encoderCount = __HAL_TIM_GET_COUNTER(&htim2); //le o encoder
-			RPS = (encoderCount - Last_encoderCount) / 20.0f; //calcula RPS
-			RAD_S = RPS * 6.283185f; //transforma em rad/s
+			ResetTimer1();
+			LED2_ON();
 						
-			Last_encoderCount = encoderCount; //guarda a leitura z-1
-			rotacoes += RPS * TsEncoder; //aculuma as rotacoes					
-			
 			pwm_final = teste_pwm * 10;
-			pwm(pwm_final); //insere a acao de controle na saida	
+			pwm(pwm_final);
 			
-			RAD_S_INT = RAD_S * 10;
-			MotorVoltageInt = MotorVoltage * 10;
-						
-			sprintf(TX_buffer, "%u,%u,%u,%u,%u\r\n", counter, RAD_S_INT, pwm_final, MotorVoltageInt, ADC_RAW[1]);
-			HAL_UART_Transmit(&huart2, (uint8_t*)TX_buffer, strlen(TX_buffer),4);
+			EncoderCount = GetEncoder();
+			Rps = (EncoderCount - LastEncoderCount) / 20.0f; //calcula RPS
+			RAD_S = Rps * 6.283185f; //transforma em rad/s
 			
-			//LED_OFF();
+			LastEncoderCount = EncoderCount;
+			
+			for(uint32_t j=0; j<ADC_BUF_SIZE; j++)
+			{
+				SumAdcCurrent += ADC_RAW[j];
+			}
+			AvgAdcCurrent = SumAdcCurrent / ADC_BUF_SIZE;
+			
+			Sps = CurrentIndex * 10000 * ADC_BUF_SIZE; /* 2000 is 2Khz (500uS) */
+			
+			CurrentIndex = 0;
+			SumAdcCurrent = 0;
+			
+			RAD_S_INT = RAD_S * 100;
+			
+			sprintf(TX_buffer, "%u,%u,%u,%u\r\n", counter, pwm_final, AvgAdcCurrent, RAD_S_INT);
+			//x3uint_to_asc(counter, pwm_final, AvgAdcCurrent, TX_buffer);
+			//x5uint_to_asc(counter, pwm_final, AvgAdcCurrent, RAD_S_INT, NULL, TX_buffer);
+			HAL_UART_Transmit_IT(&huart2, (uint8_t*)TX_buffer, strlen(TX_buffer));
+			
+			LED2_OFF();
 		}
     /* USER CODE END WHILE */
 
@@ -227,7 +220,7 @@ void SystemClock_Config(void)
   /** Configure the main internal regulator output voltage
   */
   __HAL_RCC_PWR_CLK_ENABLE();
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -238,8 +231,8 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
   RCC_OscInitStruct.PLL.PLLM = 16;
-  RCC_OscInitStruct.PLL.PLLN = 336;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
+  RCC_OscInitStruct.PLL.PLLN = 288;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 2;
   RCC_OscInitStruct.PLL.PLLR = 2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -253,10 +246,10 @@ void SystemClock_Config(void)
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
   {
     Error_Handler();
   }
@@ -266,25 +259,12 @@ void SystemClock_Config(void)
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {	
-	LED_TOGGLE();
-	
-//	ADC_RAW[0] = HAL_ADC_GetValue(&hadc1);
-//	ADC_RAW[1] = HAL_ADC_GetValue(&hadc1);
-
-	if (pwm_final < 1)
-			ADC_RAW[0] = 0;
-
-	//MotorVoltage = ((vref/4095) * ADC_RAW) * divisor;
-	
-	HAL_ADC_Start_DMA(&hadc1, ADC_RAW, 2); 
+	LED1_TOGGLE();
+	CurrentIndex++;
+	HAL_ADC_Start_DMA(&hadc1, ADC_RAW, ADC_BUF_SIZE); 
 }
 
-void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
-{
-	//pwm(STEP);
-}
-
-void uint_to_asc(unsigned long val1, unsigned long val2, unsigned long val3, unsigned long val4,
+void x5uint_to_asc(unsigned long val1, unsigned long val2, unsigned long val3, unsigned long val4,
                  unsigned long val5, char *buffer)
 {
     char bff_aux[10];
@@ -325,6 +305,35 @@ void uint_to_asc(unsigned long val1, unsigned long val2, unsigned long val3, uns
     }
     buffer[34] = '\r';
     buffer[35] = '\n';
+}
+
+void x3uint_to_asc(unsigned long val1, unsigned long val2, unsigned long val3, char *buffer)
+{
+    char bff_aux[10];
+    int i = 0;
+    
+    itoa(val1, bff_aux);
+    for(i=0; i<6;i++)
+    {
+        buffer[i] = bff_aux[i];
+    }
+    buffer[6] = ',';
+    
+    itoa(val2, bff_aux);
+    for(i=7; i<13;i++)
+    {
+        buffer[i] = bff_aux[i-7];
+    }
+    buffer[13] = ',';
+    
+    itoa(val3, bff_aux);
+    for(i=14; i<20;i++)
+    {
+        buffer[i] = bff_aux[i-14];
+    }   
+
+    buffer[20] = '\r';
+    buffer[21] = '\n';
 }
 
 
@@ -383,7 +392,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 	if(Rx_data[0] == 's')
 	{
-		setpoint = ((Rx_data[1] - '0') * 100) + ((Rx_data[2] - '0') * 10) + (Rx_data[3] - '0');
+		//setpoint = ((Rx_data[1] - '0') * 100) + ((Rx_data[2] - '0') * 10) + (Rx_data[3] - '0');
 	}
   HAL_UART_Receive_IT(&huart2, Rx_data, 4); 
 }

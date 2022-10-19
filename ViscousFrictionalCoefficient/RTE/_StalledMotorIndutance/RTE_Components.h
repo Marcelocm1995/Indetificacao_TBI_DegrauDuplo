@@ -3,8 +3,8 @@
  * Auto generated Run-Time-Environment Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'Viscous Frictional Coefficient' 
- * Target:  'Indetificacao_TBI_DegrauDuplo' 
+ * Project: 'ViscousFrictionalCoefficient' 
+ * Target:  'StalledMotorIndutance' 
  */
 
 #ifndef RTE_COMPONENTS_H
