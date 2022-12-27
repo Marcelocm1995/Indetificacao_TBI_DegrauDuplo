@@ -688,6 +688,11 @@
       (net 2 "GNDD") (pinfunction "PGND") (pintype "power_in") (tstamp e2ad073b-0700-4685-bd8a-b327703b69a5))
     (pad "33" thru_hole circle (at 1.01 -1.8948) (size 0.5 0.5) (drill 0.2) (layers *.Cu)
       (net 2 "GNDD") (pinfunction "PGND") (pintype "power_in") (tstamp f0f00ccd-628e-454d-b819-910aaf615722))
+    (model "${KIPRJMOD}/QFN-32 V6.stp"
+      (offset (xyz -0.3 -0.4 0))
+      (scale (xyz 1.4 1.4 1))
+      (rotate (xyz 0 0 0))
+    )
   )
 
   (footprint "Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12" (layer "F.Cu")
@@ -770,6 +775,11 @@
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
+    )
+    (model "${KIPRJMOD}/USB_type_C_smd_12p.stp"
+      (offset (xyz 0 2.5 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 180))
     )
   )
 
@@ -1602,6 +1612,11 @@
     (pad "2" smd rect locked (at 3.2 0) (size 1.5 2.2) (layers "F.Cu" "F.Paste" "F.Mask")
       (net 7 "5V") (pinfunction "2") (pintype "input") (tstamp 2a6b173b-395b-4d4a-8594-748286659d54))
     (model "${KICAD6_3DMODEL_DIR}/Inductor_SMD.3dshapes/L_7.3x7.3_H3.5.wrl"
+      (offset (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 0))
+    )
+    (model "${KIPRJMOD}/INDUCTOR_73x73h5.step"
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
@@ -4637,6 +4652,11 @@
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
+    (model "${KIPRJMOD}/USB_type_C_smd_12p.stp"
+      (offset (xyz 0 3 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 180))
+    )
   )
 
   (footprint "LED_SMD:LED_0603_1608Metric" (layer "F.Cu")
@@ -4964,6 +4984,11 @@
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
+    )
+    (model "${KIPRJMOD}/DC socket.STEP"
+      (offset (xyz 0 -14 6))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 0))
     )
   )
 
@@ -5607,7 +5632,7 @@
       (net 11 "Net-(C17-Pad1)") (pinfunction "BST") (pintype "power_in") (tstamp 994f0143-c346-41b6-82e4-907dd13abb21))
     (pad "9" smd rect locked (at 0 0 90) (size 2.62 3.51) (layers "F.Cu" "F.Mask")
       (net 2 "GNDD") (pinfunction "GND") (pintype "power_in") (tstamp aef4cfad-47fa-44cb-a104-91e11001d6e4))
-    (model "${KICAD6_3DMODEL_DIR}/Package_SO.3dshapes/SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.62x3.51mm.wrl"
+    (model "${KICAD6_3DMODEL_DIR}/Package_SO.3dshapes/SOIC-8_3.9x4.9mm_P1.27mm.wrl"
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
