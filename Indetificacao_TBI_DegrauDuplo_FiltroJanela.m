@@ -14,7 +14,7 @@ datalog = datalog(index(1):end,:);
 
 time = (datalog(:,1) - datalog(1,1)) / 1000;   % vetor de temp em S
 RAD_S = (datalog(:,2) / 10);               
-CONTROLE_PWM = (datalog(:,3) / 100) * 10;
+CONTROLE_PWM = (datalog(:,3) / 100) * 14.3;
 Voltage_PWM = (datalog(:,4) / 100) * (12/3.2); 
 
 RAW_ADC = (datalog(:,5) / 1);
@@ -29,6 +29,7 @@ RadF10_Order1 = FilterWindowHammingFs1000Fc10_Order1(RAD_S);
 CurrentF10_Order1 = FilterWindowHammingFs1000Fc10_Order1(Current);
 figure;
 plot(time,CurrentF10_Order1);
+grid on;
 
 figure;
 % plot(time,RadF100_Order10);
@@ -37,6 +38,7 @@ hold on;
 plot(time,RadF100_Order1);
 % plot(time,RadF10_Order10);
 plot(time,RadF10_Order1);
+grid on;
 hold off;
 
 %% Analise da Gma
@@ -58,3 +60,8 @@ legend('Speed (Rad/s)', 'Step (Volts)', 'Filtred');
 %%
 figure;
 plot(degrauduplo.Time, degrauduplo.Data(:,1),'b',time, RadF10_Order1,'r', time,CONTROLE_PWM, 'g');
+
+legend('Speed Calculated (Rad/s)', 'Speed Measured (Rad/s)', 'Step (Volts');
+xlabel('Time (Seconds)');
+ylabel('Speed (Rad/s)');
+grid on;
